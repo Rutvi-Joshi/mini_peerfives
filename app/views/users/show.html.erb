@@ -1,0 +1,50 @@
+<h1>User: <%= @user.name %></h1>
+<%= link_to 'Edit User', edit_user_path(@user) %>
+
+<h2>P5 History</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date-Time</th>
+      <th>P5 Given</th>
+      <th>User Name</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @p5_history.each_with_index do |history, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= history.datetime %></td>
+        <td><%= history.points %></td>
+        <td><%= User.find(history.given_to).name %></td>
+        <td><%= link_to 'Delete', user_reward_history_path(@user, history), method: :delete %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2>Reward History</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Date-Time</th>
+      <th>Rewards Received</th>
+      <th>User Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reward_history.each_with_index do |history, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= history.datetime %></td>
+        <td><%= history.points %></td>
+        <td><%= User.find(history.given_by).name %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Give Reward', new_user_reward_history_path(@user) %>

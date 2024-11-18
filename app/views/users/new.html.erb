@@ -1,0 +1,8 @@
+<h1>Create New User</h1>
+<%= form_with model: @user, local: true do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  <%= form.submit 'Save' %>
+<% end %>
+
+<%= link_to 'Cancel', users_path %>

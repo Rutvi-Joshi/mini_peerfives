@@ -1,0 +1,36 @@
+<h1>Give Reward</h1>
+
+<%= form_with model: @reward_history, url: user_reward_histories_path(@user), method: :post, local: true do |form| %>
+  <% if @reward_history.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@reward_history.errors.count, "error") %> prohibited this reward from being saved:</h2>
+
+      <ul>
+        <% @reward_history.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :points, "Reward Points (Max: 100)" %>
+    <%= form.number_field :points, min: 1, max: 100, value: 1, required: true, step: 1 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :given_to, "Select User to Give Reward" %>
+    <%= form.collection_select :given_to, User.where.not(id: @user.id), :id, :name, prompt: "Choose a user", required: true %>
+  </div>
+
+  <div class="field">
+    <strong>Your P5 Balance: <%= @user.p5_balance %> P5</strong>
+  </div>
+
+ <div class="actions">
+  <%= form.submit "Give Reward", disabled: (@user.p5_balance.nil? || @user.p5_balance < 1) %>
+</div>
+
+
+  <%= link_to 'Cancel', user_reward_histories_path(@user), class: 'cancel-link' %>
+<% end %>
